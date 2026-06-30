@@ -33,19 +33,46 @@ _API_KEY_FILE = SCRIPT_DIR / "api-key.txt"
 
 
 def _load_config() -> dict:
-    """Baca token/key dari file api-key.txt."""
+    """
+    Load config: env vars dulu (untuk Railway), fallback ke api-key.txt (lokal).
+    """
     cfg = {}
-    if not _API_KEY_FILE.exists():
-        logger.error(f"File konfigurasi tidak ditemukan: {_API_KEY_FILE}")
-        sys.exit(1)
-    for line in _API_KEY_FILE.read_text(encoding="utf-8").splitlines():
-        line = line.strip()
-        if not line or line.startswith("#"):
-            continue
-        if "=" in line:
-            key, val = line.split("=", 1)
-            cfg[key.strip()] = val.strip()
-    return cfg
+
+    # --- Prioritas 1: Environment Variables (Railway / Cloud) ---
+    env_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    env_chat  = os.environ.get("OPERATOR_CHAT_ID", "")
+    env_gemini = os.environ.get("GEMINI_API_KEY", "")
+    env_sheet  = os.environ.get("GOOGLE_SHEET_ID", "")
+    env_svc    = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
+
+    if env_token:
+        cfg["Telegram Bot Token"] = env_token
+        cfg["Chat ID operator"]   = env_chat
+        cfg["Gemini API Key"]     = env_gemini
+        cfg["GOOGLE_SHEET_ID"]    = env_sheet
+        cfg["GOOGLE_SERVICE_ACCOUNT_JSON"] = env_svc
+        logger.info("Config loaded dari Environment Variables (Railway/Cloud)")
+        return cfg
+
+    # --- Prioritas 2: File api-key.txt (Local) ---
+    if _API_KEY_FILE.exists():
+        for line in _API_KEY_FILE.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            if "=" in line:
+                key, val = line.split("=", 1)
+                cfg[key.strip()] = val.strip()
+        logger.info("Config loaded dari api-key.txt (Local)")
+        return cfg
+
+    # --- Tidak ada config ---
+    logger.error(
+        "File konfigurasi tidak ditemukan!\n"
+        "  → Railway: Set env vars TELEGRAM_BOT_TOKEN, dll.\n"
+        "  → Local:   Buat file api-key.txt"
+    )
+    sys.exit(1)
 
 
 _config = _load_config()

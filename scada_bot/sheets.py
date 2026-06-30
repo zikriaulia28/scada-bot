@@ -80,10 +80,25 @@ def build_sheet_row(ocr: dict) -> list:
 # Google Sheets Access Token (JWT)
 # =============================================================
 def get_google_access_token() -> str:
-    sa_file = SCRIPT_DIR / "credentials.json"
-    if not sa_file.exists():
-        raise FileNotFoundError(f"credentials.json tidak ditemukan di {sa_file}")
-    sa = json.loads(sa_file.read_text(encoding="utf-8"))
+    """
+    Buat access token untuk Google Sheets.
+    - Railway: baca dari env var GOOGLE_SERVICE_ACCOUNT_JSON
+    - Local: baca dari file credentials.json
+    """
+    # Coba baca dari env var dulu (Railway)
+    svc_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
+    if svc_json:
+        sa = json.loads(svc_json)
+    else:
+        # Fallback ke file (Local)
+        sa_file = SCRIPT_DIR / "credentials.json"
+        if not sa_file.exists():
+            raise FileNotFoundError(
+                f"credentials.json tidak ditemukan!\n"
+                f"  → Railway: Set env var GOOGLE_SERVICE_ACCOUNT_JSON\n"
+                f"  → Local:   Letakkan file credentials.json di {sa_file}"
+            )
+        sa = json.loads(sa_file.read_text(encoding="utf-8"))
     iat = int(time.time())
     payload = {
         "iss":   sa["client_email"],
