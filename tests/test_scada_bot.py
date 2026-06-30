@@ -3,19 +3,18 @@ import sys, os
 # ensure parent directory on path
 sys.path.append(os.path.abspath('..'))
 
-from scada_bot_v2 import (
+from scada_bot.session import (
     create_session,
     get_session,
     delete_session,
-    merge_ocr,
+    _sessions,
+    cleanup_timeout_sessions,
     calculate_progress,
     build_status_text,
     build_summary_text,
-    _sessions,
-    cleanup_timeout_sessions,
-    SESSION_TIMEOUT_MINUTES,
-    FIELD_MAP,
 )
+from scada_bot.config import SESSION_TIMEOUT_MINUTES, FIELD_MAP
+from scada_bot.sheets import merge_ocr
 
 class TestScadaBot(unittest.TestCase):
     def setUp(self):
