@@ -6,15 +6,15 @@ Bot Telegram untuk mengambil data dari layar HMI SCADA menggunakan OCR, lalu men
 
 ## 🧭 Fitur Utama
 
-| Fitur | Keterangan |
-|-------|------------|
-| **Session-based** | Perintah `/mulai` membuat session baru dengan pilihan Time |
-| **Multi-foto** | Kirim banyak foto per session — data di-merge otomatis (tanpa overwrite) |
-| **OCR** | Gemini Vision API (atau PaddleOCR lokal) |
-| **Google Sheets** | Data otomatis ditulis saat `/selesai` |
-| **Progress Tracker** | `/status` melihat 21 parameter sudah terisi berapa |
-| **Timeout** | Session otomatis expired setelah 30 menit |
-| **Multi-user** | Banyak user bisa pakai bot bersamaan, session terpisah |
+| Fitur                | Keterangan                                                               |
+| -------------------- | ------------------------------------------------------------------------ |
+| **Session-based**    | Perintah `/mulai` membuat session baru dengan pilihan Time               |
+| **Multi-foto**       | Kirim banyak foto per session — data di-merge otomatis (tanpa overwrite) |
+| **OCR**              | Gemini Vision API                                                        |
+| **Google Sheets**    | Data otomatis ditulis saat `/selesai`                                    |
+| **Progress Tracker** | `/status` melihat 21 parameter sudah terisi berapa                       |
+| **Timeout**          | Session otomatis expired setelah 30 menit                                |
+| **Multi-user**       | Banyak user bisa pakai bot bersamaan, session terpisah                   |
 
 ---
 
@@ -56,13 +56,13 @@ Google Sheets API (Service Account)
 
 ## 📋 Environment Variables
 
-| Variable | Wajib | Keterangan |
-|----------|-------|------------|
-| `TELEGRAM_BOT_TOKEN` | ✅ | Token dari @BotFather |
-| `OPERATOR_CHAT_ID` | ❌ | Chat ID operator untuk notifikasi startup |
-| `GEMINI_API_KEY` | ✅ | API Key Gemini (jika pakai Gemini) |
-| `GOOGLE_SHEET_ID` | ✅ | ID Google Sheet |
-| `GOOGLE_SERVICE_ACCOUNT_JSON` | ✅ | JSON credentials service account Google |
+| Variable                      | Wajib | Keterangan                                |
+| ----------------------------- | ----- | ----------------------------------------- |
+| `TELEGRAM_BOT_TOKEN`          | ✅    | Token dari @BotFather                     |
+| `OPERATOR_CHAT_ID`            | ❌    | Chat ID operator untuk notifikasi startup |
+| `GEMINI_API_KEY`              | ✅    | API Key Gemini (jika pakai Gemini)        |
+| `GOOGLE_SHEET_ID`             | ✅    | ID Google Sheet                           |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | ✅    | JSON credentials service account Google   |
 
 > ⚠️ Jangan commit `api-key.txt` atau `credentials.json` ke repo publik.
 
@@ -71,12 +71,14 @@ Google Sheets API (Service Account)
 ## 📦 Instalasi & Setup
 
 ### 1️⃣ Clone Repository
+
 ```bash
 git clone https://github.com/<username>/scada-bot.git
 cd scada-bot
 ```
 
 ### 2️⃣ Buat Virtual Environment
+
 ```bash
 python -m venv .venv
 source .venv/Scripts/activate   # Windows (Git Bash)
@@ -85,11 +87,13 @@ source .venv/bin/activate        # Linux/Mac
 ```
 
 ### 3️⃣ Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4️⃣ Buat File `api-key.txt`
+
 ```
 Telegram Bot Token=<YOUR_BOT_TOKEN>
 Chat ID operator=<YOUR_CHAT_ID>
@@ -97,6 +101,7 @@ Gemini API Key=<YOUR_GEMINI_KEY>
 ```
 
 ### 5️⃣ Jalankan Bot
+
 ```bash
 python scada_bot_v2.py
 ```
@@ -108,6 +113,7 @@ python scada_bot_v2.py
 ### Langkah cepat:
 
 1. **Push ke GitHub**
+
    ```bash
    git remote add origin https://github.com/<username>/scada-bot.git
    git push -u origin master
@@ -116,6 +122,7 @@ python scada_bot_v2.py
 2. **Login Railway** → https://railway.app → New Project → Deploy from GitHub
 
 3. **Environment Variables** di dashboard Railway:
+
    ```
    TELEGRAM_BOT_TOKEN = 8741176186:AAxxxxx
    OPERATOR_CHAT_ID = 1210087147
@@ -135,11 +142,13 @@ python scada_bot_v2.py
 ## 🧪 Testing (Lokal)
 
 ### Unit Tests
+
 ```bash
 python -m unittest discover -s tests -v
 ```
 
 ### Multi-user
+
 - Buka **Telegram Desktop** + **Telegram Web** atau **HP** dengan akun berbeda
 - Ketik `/mulai` → pilih Time → kirim foto
 - Setiap user memiliki session terpisah
