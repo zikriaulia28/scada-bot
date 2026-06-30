@@ -85,6 +85,9 @@ TELEGRAM_BOT_TOKEN = _config.get("Telegram Bot Token", "")
 OPERATOR_CHAT_ID   = _config.get("Chat ID operator", "")
 GEMINI_API_KEY     = _config.get("Gemini API Key", "")
 
+# OCR Engine: "gemini" atau "paddle" (lokal, tanpa limit)
+OCR_ENGINE = "gemini"
+
 if not TELEGRAM_BOT_TOKEN or "***" in TELEGRAM_BOT_TOKEN or len(TELEGRAM_BOT_TOKEN) < 20:
     logger.error("TELEGRAM_BOT_TOKEN belum diisi dengan lengkap di api-key.txt!")
     logger.error("Buka api-key.txt → isi 'Telegram Bot Token=TOKEN_LENGKAP'")
@@ -111,8 +114,6 @@ SESSION_TIMEOUT_MINUTES = 30
 GEMINI_REQUEST_DELAY = 3
 _gemini_last_request_time: float = 0.0
 
-# OCR Engine: "gemini" atau "paddle" (lokal, tanpa limit)
-OCR_ENGINE = "gemini"
 
 # Gemini
 _GEMINI_MODEL    = "gemini-3.1-flash-lite"
