@@ -1035,7 +1035,8 @@ def main():
 
         except Exception as exc:
             logger.error(f"Error: {exc}\n{traceback.format_exc()}")
-            tg_send_message(chat_id,f"⚠️ *Error bot:*\n`{str(exc)[:200]}`")
+            if OPERATOR_CHAT_ID:
+                tg_send_message(OPERATOR_CHAT_ID, f"⚠️ *Error bot:*\n`{str(exc)[:200]}`")
             time.sleep(5)
         else:
             time.sleep(1)
