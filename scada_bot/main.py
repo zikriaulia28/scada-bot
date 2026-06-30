@@ -16,7 +16,7 @@ from scada_bot.handlers import handle_message, tg_send_message
 
 def main():
     logger.info("=" * 55)
-    logger.info("  SCADA Bot v2 — Multi Image Session OCR")
+    logger.info("  SCADA Bot PLN DURI MS — Multi Image Session OCR")
     logger.info(f"  Model: {_GEMINI_MODEL}  |  Sheet: {SHEET_NAME}")
     logger.info(f"  Timeout: {SESSION_TIMEOUT_MINUTES} menit")
     logger.info("=" * 55)
@@ -26,7 +26,7 @@ def main():
     if OPERATOR_CHAT_ID:
         import time as _time
         _time.sleep(2)  # Wait for polling to start
-        tg_send_message(OPERATOR_CHAT_ID, "🤖 *SCADA Bot v2 online!*")
+        tg_send_message(OPERATOR_CHAT_ID, "🤖 *SCADA Bot PLN DURI MS online!*")
 
     last_update_id = 0
 
