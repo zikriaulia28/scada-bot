@@ -575,7 +575,7 @@ def _get_paddle_ocr():
         os.environ["FLAGS_enable_pir_api"] = "0"
         os.environ["FLAGS_pir_apply_inplace_pass"] = "0"
         os.environ["FLAGS_pir_apply_general_fuse_pass"] = "0"
-        from paddleocr import PaddleOCR  # type: ignore[import-untyped]
+        from paddleocr import PaddleOCR  # type: ignore[reportMissingImports]
         _paddle_ocr_instance = PaddleOCR(use_textline_orientation=False, lang='en')
         logger.info("PaddleOCR siap.")
     return _paddle_ocr_instance
