@@ -79,6 +79,20 @@ def handle_command(chat_id: str, command: str, text: str):
         logger.info(f"Session dibatalkan: chat={chat_id}")
         return
 
+    # Konfirmasi Ya/Tidak HARUS sebelum /selesai
+    if chat_id in _waiting_confirm:
+        if text.lower() in ("ya", "y", "yes", "iya", "yoi"):
+            _waiting_confirm.pop(chat_id, None)
+            session = get_session(chat_id)
+            if session:
+                _do_write(chat_id, session)
+        elif text.lower() in ("tidak", "no", "n", "nope", "engga"):
+            _waiting_confirm.pop(chat_id, None)
+            tg_send_message(chat_id, "❌ Penyimpanan dibatalkan.\nGunakan /mulai untuk session baru.")
+        else:
+            tg_send_message(chat_id, "Ketik *Ya* atau *Tidak*.")
+        return
+
     # /selesai
     if command == "/selesai":
         if not session:
@@ -99,20 +113,6 @@ def handle_command(chat_id: str, command: str, text: str):
             logger.info(f"Menunggu konfirmasi simpan: chat={chat_id}, kosong={total-filled}")
         else:
             _do_write(chat_id, session)
-        return
-
-    # Konfirmasi Ya/Tidak untuk /selesai
-    if chat_id in _waiting_confirm:
-        if text.lower() in ("ya", "y", "yes", "iya", "yoi"):
-            _waiting_confirm.pop(chat_id, None)
-            session = get_session(chat_id)
-            if session:
-                _do_write(chat_id, session)
-        elif text.lower() in ("tidak", "no", "n", "nope", "engga"):
-            _waiting_confirm.pop(chat_id, None)
-            tg_send_message(chat_id, "❌ Penyimpanan dibatalkan.\nGunakan /mulai untuk session baru.")
-        else:
-            tg_send_message(chat_id, "Ketik *Ya* atau *Tidak*.")
         return
 
     # Input waktu (setelah /mulai)

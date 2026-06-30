@@ -5,6 +5,7 @@ SCADA Bot v2 — Google Sheets integration (Task 6).
 Normalization, sheet row building, writing to Sheets API.
 """
 
+import os
 import json
 import time
 
