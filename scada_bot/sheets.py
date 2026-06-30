@@ -89,7 +89,26 @@ def get_google_access_token() -> str:
     # Coba baca dari env var dulu (Railway)
     svc_json = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
     if svc_json:
-        sa = json.loads(svc_json)
+        logger.debug(f"GOOGLE_SERVICE_ACCOUNT_JSON length={len(svc_json)}, first 100 chars: {svc_json[:100]}")
+        try:
+            sa = json.loads(svc_json)
+        except json.JSONDecodeError:
+            # Mungkin ada trailing whitespace atau extra data — coba strip + parse
+            logger.warning("Gagal parse langsung, coba strip...")
+            svc_json_clean = svc_json.strip().rstrip(",\n\r\t ")
+            try:
+                sa = json.loads(svc_json_clean)
+            except json.JSONDecodeError as e:
+                # Kalau masih gagal, log detail dan raise
+                logger.error(f"Parse gagal. Detail: {e}")
+                logger.error(f"Chars 0-20: {repr(svc_json[:20])}")
+                # Coba baca dari file credentials.json sebagai fallback
+                sa_file = SCRIPT_DIR / "credentials.json"
+                if sa_file.exists():
+                    logger.warning("Fallback ke credentials.json (file)")
+                    sa = json.loads(sa_file.read_text(encoding="utf-8"))
+                else:
+                    raise
     else:
         # Fallback ke file (Local)
         sa_file = SCRIPT_DIR / "credentials.json"
