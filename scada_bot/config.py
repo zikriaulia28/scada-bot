@@ -85,16 +85,19 @@ GEMINI_API_KEY = _config.get("Gemini API Key", "")
 OCR_ENGINE = "gemini"
 
 if not TELEGRAM_BOT_TOKEN or "***" in TELEGRAM_BOT_TOKEN or len(TELEGRAM_BOT_TOKEN) < 20:
-    logger.error("TELEGRAM_BOT_TOKEN belum diisi dengan lengkap di api-key.txt!")
-    logger.error("Buka api-key.txt → isi 'Telegram Bot Token=TOKEN_LENGKAP'")
+    logger.error("TELEGRAM_BOT_TOKEN belum diisi!")
+    logger.error("  → Railway: Set env var TELEGRAM_BOT_TOKEN")
+    logger.error("  → Local:   Isi di api-key.txt")
     sys.exit(1)
 
+# OPERATOR_CHAT_ID opsional — hanya untuk notifikasi startup
 if not OPERATOR_CHAT_ID:
-    logger.error("Chat ID belum diisi di api-key.txt!")
-    sys.exit(1)
+    logger.warning("OPERATOR_CHAT_ID kosong — notifikasi startup tidak akan dikirim.")
 
 if not GEMINI_API_KEY and OCR_ENGINE != "paddle":
-    logger.error("Gemini API Key belum diisi di api-key.txt!")
+    logger.error("GEMINI_API_KEY belum diisi!")
+    logger.error("  → Railway: Set env var GEMINI_API_KEY")
+    logger.error("  → Local:   Isi di api-key.txt")
     sys.exit(1)
 
 # =============================================================
