@@ -53,7 +53,7 @@ def build_sheet_row(ocr: dict) -> list:
     Urutan kolom B-V (21 kolom, 1-to-1 dengan Gemini prompt).
     """
     return [
-        normalize_number(ocr.get("pit_100", "")),            # B
+        normalize_number(ocr.get("pit_100_pv", "")),         # B
         normalize_number(ocr.get("pit_101", "")),            # C
         normalize_number(ocr.get("tit_100", "")),            # D
         normalize_number(ocr.get("pit_1001a", "")),          # E
@@ -62,11 +62,11 @@ def build_sheet_row(ocr: dict) -> list:
         normalize_number(ocr.get("pit_1001b", "")),          # H
         normalize_number(ocr.get("tit_1001b", "")),          # I
         normalize_number(ocr.get("fit_1001b", "")),          # J
-        normalize_number(ocr.get("pit_106", "")),            # K
+        normalize_number(ocr.get("pit_106_pv", "")),         # K
         normalize_number(ocr.get("tit_103", "")),            # L
         normalize_number(ocr.get("pit_103", "")),            # M
-        normalize_number(ocr.get("pcv_a_auto_loop_mv", "")), # N
-        normalize_number(ocr.get("pcv_b_auto_loop_mv", "")), # O
+        (normalize_number(ocr.get("pcv_a_auto_loop_mv", "")) + "%") if ocr.get("pcv_a_auto_loop_mv", "") else "",  # N
+        (normalize_number(ocr.get("pcv_b_auto_loop_mv", "")) + "%") if ocr.get("pcv_b_auto_loop_mv", "") else "",  # O
         normalize_number(ocr.get("pit_104_pv", "")),         # P
         ocr.get("gc_a_actual_btu", ""),    # Q
         ocr.get("gc_b_actual_btu", ""),    # R

@@ -132,7 +132,7 @@ GEMINI_PROMPT = """You are a SCADA OCR system. Analyze this HMI SCADA photo care
 Extract ALL visible values. Return ONLY a pure JSON object with these exact keys, no markdown, no code block:
 
 {
-  "pit_100": number_or_null,
+  "pit_100_pv": number_or_null,
   "pit_101": number_or_null,
   "tit_100": number_or_null,
   "pit_1001a": number_or_null,
@@ -141,7 +141,7 @@ Extract ALL visible values. Return ONLY a pure JSON object with these exact keys
   "pit_1001b": number_or_null,
   "tit_1001b": number_or_null,
   "fit_1001b": number_or_null,
-  "pit_106": number_or_null,
+  "pit_106_pv": number_or_null,
   "tit_103": number_or_null,
   "pit_103": number_or_null,
   "pcv_a_auto_loop_mv": number_or_null,
@@ -165,7 +165,7 @@ Important:
 # FIELD MAP — untuk iterasi dinamis (Task 5)
 # =============================================================
 FIELD_MAP = [
-    ("pit_100", "PIT 100"),
+    ("pit_100_pv", "PIT 100(PV)"),
     ("pit_101", "PIT 101"),
     ("tit_100", "TIT 100"),
     ("pit_1001a", "PIT 1001A"),
@@ -174,7 +174,7 @@ FIELD_MAP = [
     ("pit_1001b", "PIT 1001B"),
     ("tit_1001b", "TIT 1001B"),
     ("fit_1001b", "FIT 1001B"),
-    ("pit_106", "PIT 106"),
+    ("pit_106_pv", "PIT 106(PV)"),
     ("tit_103", "TIT 103"),
     ("pit_103", "PIT 103"),
     ("pcv_a_auto_loop_mv", "Loop A %"),
